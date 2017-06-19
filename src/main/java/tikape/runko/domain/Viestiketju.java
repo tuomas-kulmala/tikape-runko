@@ -11,4 +11,15 @@ package tikape.runko.domain;
  */
 public class Viestiketju {
     
+    private int id;
+    private int viestialue;
+    private String otsikko;
+    private String viimeisinViesti;
+    
+    public Viestiketju (int id, int viestialue, String otsikko){
+        this.id = id;
+        this.viestialue = viestialue;
+        this.otsikko = otsikko;
+    }
+    
 }
