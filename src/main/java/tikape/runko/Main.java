@@ -7,7 +7,7 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.runko.database.Database;
 import tikape.runko.database.OpiskelijaDao;
 import tikape.runko.database.ViestialueDao;
-
+import tikape.runko.database.ViestiketjuDao;
 
 public class Main {
 
@@ -17,7 +17,8 @@ public class Main {
 
         OpiskelijaDao opiskelijaDao = new OpiskelijaDao(database);
         ViestialueDao viestialueDao = new ViestialueDao(database);
-
+        ViestiketjuDao viestiketjuDao = new ViestiketjuDao(database);
+        
         get("/", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("viesti", "tervehdys");
@@ -46,6 +47,17 @@ public class Main {
             return new ModelAndView(map, "viestialueet");
         }, new ThymeleafTemplateEngine());
         
+        // Yksittäiset viestialueet ja kymmenen viimeisimmän ketjun lista
+        get("/viestialue/:id", (req, res) -> {
+            HashMap map = new HashMap<>();
+            map.put("viestialue", viestialueDao.findOne(Integer.parseInt(req.params("id"))));
+            //map.put("viestiketjut", viestialueDao.getViimeisetketjut(Integer.parseInt(req.params("id"))));
+            map.put("viestiketjut", viestiketjuDao.getViimeisetketjut(Integer.parseInt(req.params("id"))));
+            
+            return new ModelAndView(map, "viestialue");
+        }, new ThymeleafTemplateEngine());
+        
+        // Viestialueen lisäys
         post("/forum", (req, res) -> {
             viestialueDao.lisaa(req.queryParams("nimi"));
             res.redirect("/forum");

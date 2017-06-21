@@ -4,11 +4,42 @@
     <head>
         <title>Viestialue</title>
         <meta charset="utf-8" />
+        <style>
+            table {
+                border-collapse: collapse;
+            }
+            table, th, td {
+                border: 1px solid black;
+            }
+        </style>
     </head>
 
     <body>
-        <h1>Hei <span th:text="${viestialue.nimi}">viestialue</span>!</h1>
 
-        <p>Olet saapunut opiskelijan <span th:text="${viestialue.nimi}">opiskelija</span> henkilökohtaiselle sivulle.</p>
+        <p>Alla viimeisimmät keskustelut aiheesta <span th:text="${viestialue.nimi}">viestialue</span></p>
+
+        <table style="width:60%">
+            <tr>
+                <th>Viestiketju</th>
+                <th>Viestejä</th>
+                <th>Viimeisin viesti</th>
+            </tr>
+        
+                <th:block th:each="viestiketju: ${viestiketjut}">
+                <tr>
+                    <td th:text="${viestiketju.otsikko}">viestiketjun otsikko"</td>
+                    <td th:text="${viestiketju.maara}">viestejä"</td>
+                    <td th:text="${viestiketju.viimeisinaika}">viimeisin viesti"</td>
+                    <td> <a th:href="${'/viestialue/'+'viestiketju/'+ viestiketju.id}">Lue</a></td>
+                </tr>
+            </th:block>
+               
+        </table>
+         <form method="POST">
+            <input type="text" name="nimi"/>
+            <input type="submit" value="aloita uusi keskustlu"/>
+         </form>
+        
+        
     </body>
 </html>

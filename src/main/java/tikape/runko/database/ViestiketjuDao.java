@@ -72,6 +72,56 @@ public class ViestiketjuDao {
 
         return viestiketjut;
     }
+    public List<Viestiketju> getViimeisetketjut(Integer viestialueId)throws SQLException{
+        Connection connection = database.getConnection();
+        //PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS lkm FROM Viesti WHERE viestiketju IN (SELECT id FROM Viestiketju WHERE viestialue = ?)");
+        PreparedStatement stmt = connection.prepareStatement("SELECT K.id, K.otsikko, MAX(viestinaika) AS viestinaika FROM Viesti V JOIN Viestiketju K ON K.id = V.viestiketju WHERE K.viestialue =? GROUP BY K.otsikko, K.id");
+        stmt.setObject(1, viestialueId);
+ 
+        
+        ResultSet rs = stmt.executeQuery();
+  
+        List<Viestiketju> viestiketjut = new ArrayList<>();
+        
+        while (rs.next()) {
+            System.out.println(rs.getInt("id"));
+            System.out.println(rs.getString("otsikko"));
+            System.out.println(rs.getString("viestinaika"));
+            
+            Integer id = rs.getInt("id");
+            String otsikko = rs.getString("otsikko");
+            String viestinaika = rs.getString("viestinaika");
 
+            Viestiketju v = new Viestiketju(id,viestialueId,otsikko);
+            v.setViimeisinaika(viestinaika);
+            v.setMaara(this.laskeViestit(id));
+            viestiketjut.add(v);
+
+            }
+        rs.close();
+        stmt.close();
+        connection.close();
+
+        return viestiketjut;
+    } 
+        public int laskeViestit(Integer key) throws SQLException {
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS lkm FROM Viesti WHERE  id = ?");
+        stmt.setObject(1, key);
+
+        ResultSet rs = stmt.executeQuery();
+        boolean hasOne = rs.next();
+        if (!hasOne) {
+            return 0;
+        }
+
+        int lkm = Integer.parseInt(rs.getString("lkm"));
+
+        rs.close();
+        stmt.close();
+        connection.close();
+
+        return lkm;   
+    }
  
 }

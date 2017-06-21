@@ -5,6 +5,11 @@
  */
 package tikape.runko.domain;
 
+import java.util.List;
+import java.util.ArrayList;
+import tikape.runko.database.ViestialueDao;
+import tikape.runko.domain.Viestiketju;
+
 /**
  *
  * @author Tuomas
@@ -15,14 +20,13 @@ public class Viestialue {
     private String nimi;
     private String last;
     private int lkm;
-    
+    private List<Viestiketju> viestiketjut = new ArrayList<>();
     
     public Viestialue (int id, String nimi){
         this.id = id;
         this.nimi = nimi;
     }
 
- 
     public String getNimi(){
         return this.nimi;
     }
@@ -41,5 +45,17 @@ public class Viestialue {
     public int getLkm(){
         return this.lkm;
     }
-    
+    public void setViimeisetketjut(List<Viestiketju> viestiketjut){
+        this.viestiketjut = viestiketjut;
+    }
+    public List<Viestiketju> getViimeisetketjut(){
+        return viestiketjut;
+    }
+   /* public List<String> getViimeisetketjut(){
+        ArrayList<String> uusiLista = new ArrayList<>();
+        uusiLista.add("test1");
+        uusiLista.add("test2");
+                
+        return uusiLista;
+    } */
 }
