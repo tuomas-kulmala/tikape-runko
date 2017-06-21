@@ -104,7 +104,7 @@ public class ViestialueDao {
         ResultSet rs = stmt.executeQuery();
         boolean hasOne = rs.next();
         if (!hasOne) {
-            return null;
+            return 0;
         }
 
         int lkm = Integer.parseInt(rs.getString("lkm"));

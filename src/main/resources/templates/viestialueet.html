@@ -4,19 +4,40 @@
     <head>
         <title>Keskustelupalsta</title>
         <meta charset="utf-8" />
+        <style>
+            table {
+                border-collapse: collapse;
+            }
+            table, th, td {
+                border: 1px solid black;
+            }
+        </style>
     </head>
-
     <body>
-        <h1>Tervetuloa foorumille, alla näet viestialueet</h1>
-
-        <ol>
-            <li th:each="viestialue: ${viestialueet}">
-                <span th:text="${viestialue.nimi}">Viestialueen nimi" </span> <span th:text="${viestialue.lkm}">Lukumaara" </span> <span th:text="${viestialue.last}"> Viimeisin viesti" </span> <a th:href="${'/viestialueet/' + viestialue.id}">linkki</a>
-            </li>
-        </ol>
-        <form method="POST">
-            <input type="text" name="nimi"/>
-            <input type="submit" value="lisää alue!"/>
-        </form>
+        <table style="width:35%">
+            <h1>Tervetuloa keskustelupalstalle!</h1>
+            <tr>
+                <th>Alue</th>
+                <th>Viestejä</th> 
+                <th>Viimeisin</th>
+            </tr>
+        
+                <th:block th:each="viestialue: ${viestialueet}">
+                <tr>
+                    <td th:text="${viestialue.nimi}">Viestialueen nimi"</td>
+                    <td th:text="${viestialue.lkm}">Lukumaara"</td>
+                    <td th:text="${viestialue.last}"> Viimeisin viesti"</td>
+                    <td> <a th:href="${'/viestialue/' + viestialue.id}">linkki</a></td>
+                </tr>
+            </th:block>
+                
+           </table>
+        
+                <form method="POST">
+                    <input type="text" name="nimi"/>
+                    <input type="submit" value="lisää alue!"/>
+                </form>
+          
+        
     </body>
 </html>
