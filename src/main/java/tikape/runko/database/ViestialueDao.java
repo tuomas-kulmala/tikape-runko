@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import tikape.runko.domain.Opiskelija;
 import tikape.runko.domain.Viestialue;
 import tikape.runko.domain.Viesti;
 import tikape.runko.domain.Viestiketju;
@@ -57,7 +56,7 @@ public class ViestialueDao {
     public List<Viestialue> findAll() throws SQLException {
 
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viestialue");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viestialue ORDER BY nimi ASC");
 
         ResultSet rs = stmt.executeQuery();
         List<Viestialue> viestialueet = new ArrayList<>();
@@ -130,7 +129,7 @@ public class ViestialueDao {
     public List<Viestiketju> getViimeisetketjut(Integer viestialueId)throws SQLException{
         Connection connection = database.getConnection();
         //PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS lkm FROM Viesti WHERE viestiketju IN (SELECT id FROM Viestiketju WHERE viestialue = ?)");
-        PreparedStatement stmt = connection.prepareStatement("SELECT K.id, K.otsikko, MAX(viestinaika) AS viestinaika, COUNT(*) AS maara FROM Viesti V JOIN Viestiketju K ON K.id = V.viestiketju WHERE K.viestialue =? GROUP BY K.otsikko, K.id");
+        PreparedStatement stmt = connection.prepareStatement("SELECT K.id, K.otsikko, MAX(viestinaika) AS viestinaika, COUNT(*) AS maara FROM Viesti V JOIN Viestiketju K ON K.id = V.viestiketju WHERE K.viestialue =? GROUP BY K.otsikko, K.id ORDER BY K.otsikko ASC");
         stmt.setObject(1, viestialueId);
  
         

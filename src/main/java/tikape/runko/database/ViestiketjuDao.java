@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import tikape.runko.domain.Opiskelija;
 import tikape.runko.domain.Viestiketju;
 
 /**
@@ -75,7 +74,7 @@ public class ViestiketjuDao {
     public List<Viestiketju> getViimeisetketjut(Integer viestialueId)throws SQLException{
         Connection connection = database.getConnection();
         //PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS lkm FROM Viesti WHERE viestiketju IN (SELECT id FROM Viestiketju WHERE viestialue = ?)");
-        PreparedStatement stmt = connection.prepareStatement("SELECT K.id, K.otsikko,MAX(viestinaika) AS viestinaika FROM Viesti V JOIN Viestiketju K ON K.id = V.viestiketju WHERE K.viestialue =? GROUP BY K.otsikko, K.id");
+        PreparedStatement stmt = connection.prepareStatement("SELECT K.id, K.otsikko,MAX(viestinaika) AS viestinaika FROM Viesti V JOIN Viestiketju K ON K.id = V.viestiketju WHERE K.viestialue =? GROUP BY K.otsikko, K.id ORDER BY viestinaika DESC LIMIT 10");
         stmt.setObject(1, viestialueId);
  
         

@@ -39,7 +39,6 @@ public class Main {
         get("/viestialue/:id", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("viestialue", viestialueDao.findOne(Integer.parseInt(req.params("id"))));
-            //map.put("viestiketjut", viestialueDao.getViimeisetketjut(Integer.parseInt(req.params("id"))));
             map.put("viestiketjut", viestiketjuDao.getViimeisetketjut(Integer.parseInt(req.params("id"))));
             
             return new ModelAndView(map, "viestialue");

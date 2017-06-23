@@ -13,7 +13,13 @@
             }
         </style>
     </head>
-    <body>
+    <body onunload="lataus()">
+    <script>
+        function lataus() {
+        location.reload();
+        }
+    </script>
+        <button onclick="lataus()">Päivitä sivu</button>
         <table style="width:35%">
             <h1>Tervetuloa keskustelupalstalle!</h1>
             <tr>
@@ -37,7 +43,6 @@
                     <input type="text" name="nimi"/>
                     <input type="submit" value="lisää alue!"/>
                 </form>
-          
-        
+           
     </body>
 </html>

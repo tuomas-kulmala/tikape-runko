@@ -12,10 +12,16 @@
                 border: 1px solid black;
             }
         </style>
+        
     </head>
 
-    <body>
-
+     <body onunload="lataus()">
+    <script>
+        function lataus() {
+        location.reload();
+        }
+    </script>
+         <button onclick="lataus()">Päivitä sivu</button>
         <p>Alla viimeisimmät keskustelut aiheesta <span th:text="${viestialue.nimi}">viestialue</span></p>
 
         <table style="width:60%">

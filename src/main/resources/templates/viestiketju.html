@@ -14,8 +14,13 @@
         </style>
     </head>
 
-    <body>
-
+    <body onunload="lataus()">
+    <script>
+        function lataus() {
+        location.reload();
+        }
+    </script>
+    <button onclick="lataus()">Päivitä sivu</button>
         <p> Viestiketju aiheesta:  <span th:text="${viestiketju.otsikko}">viestiketju</span></p>
 
         

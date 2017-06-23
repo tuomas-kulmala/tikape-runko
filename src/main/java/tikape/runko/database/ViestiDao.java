@@ -43,7 +43,7 @@ public class ViestiDao {
         String viestinaika = rs.getString("viestinaika");
         String lahettajaIp = rs.getString("lahettaja_ip");
 
-        Viesti v = new Viesti(id, lahettaja, viestiketju, otsikko, viesti,viestinaika,lahettajaIp);
+        Viesti v = new Viesti(id, lahettaja, viestiketju, viesti,viestinaika,lahettajaIp);
 
         rs.close();
         stmt.close();
