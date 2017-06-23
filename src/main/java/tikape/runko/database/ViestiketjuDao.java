@@ -75,7 +75,7 @@ public class ViestiketjuDao {
     public List<Viestiketju> getViimeisetketjut(Integer viestialueId)throws SQLException{
         Connection connection = database.getConnection();
         //PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS lkm FROM Viesti WHERE viestiketju IN (SELECT id FROM Viestiketju WHERE viestialue = ?)");
-        PreparedStatement stmt = connection.prepareStatement("SELECT K.id, K.otsikko, MAX(viestinaika) AS viestinaika FROM Viesti V JOIN Viestiketju K ON K.id = V.viestiketju WHERE K.viestialue =? GROUP BY K.otsikko, K.id");
+        PreparedStatement stmt = connection.prepareStatement("SELECT K.id, K.otsikko,MAX(viestinaika) AS viestinaika FROM Viesti V JOIN Viestiketju K ON K.id = V.viestiketju WHERE K.viestialue =? GROUP BY K.otsikko, K.id");
         stmt.setObject(1, viestialueId);
  
         
@@ -89,9 +89,8 @@ public class ViestiketjuDao {
             System.out.println(rs.getString("viestinaika"));
             
             Integer id = rs.getInt("id");
-            String otsikko = rs.getString("otsikko");
             String viestinaika = rs.getString("viestinaika");
-
+            String otsikko = rs.getString("otsikko");
             Viestiketju v = new Viestiketju(id,viestialueId,otsikko);
             v.setViimeisinaika(viestinaika);
             v.setMaara(this.laskeViestit(id));
@@ -104,9 +103,9 @@ public class ViestiketjuDao {
 
         return viestiketjut;
     } 
-        public int laskeViestit(Integer key) throws SQLException {
+    public int laskeViestit(Integer key) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS lkm FROM Viesti WHERE  id = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS lkm FROM Viesti WHERE  viestiketju = ?");
         stmt.setObject(1, key);
 
         ResultSet rs = stmt.executeQuery();
@@ -123,5 +122,39 @@ public class ViestiketjuDao {
 
         return lkm;   
     }
- 
+    public void lisaa(int id, String otsikko, String viesti,String lahettaja,String lahettajaIp) throws SQLException {
+        // Tarkistetaan naivisti syötteiden sisältö
+        if (!otsikko.isEmpty() && !viesti.isEmpty()){
+            if(lahettaja.isEmpty()){
+                lahettaja = "Anonyymi";
+            }
+            Connection connection = database.getConnection();
+
+            // Uusi viestiketju kantaan
+            PreparedStatement stmt_1 = connection.prepareStatement("INSERT INTO VIESTIKETJU (viestialue, otsikko) VALUES(?, ?);");
+            stmt_1.setObject(1, id);
+            stmt_1.setObject(2, otsikko);
+            stmt_1.execute();
+            stmt_1.close();
+
+            // Haetaan uuden ketjun id kannasta
+            PreparedStatement stmt_2 = connection.prepareStatement("SELECT MAX(id) AS ketjuid FROM Viestiketju;");
+            ResultSet rs = stmt_2.executeQuery();       
+            int ketjuId = Integer.parseInt(rs.getString("ketjuid"));
+            rs.close();
+            stmt_2.close();
+
+            // Kirjoitetaan uusi viesti tauluun
+            PreparedStatement stmt_3 = connection.prepareStatement("INSERT INTO VIESTI (lahettaja, viestiketju, viesti,lahettaja_ip) VALUES(?, ?, ?, ?);");
+            stmt_3.setObject(1, lahettaja);
+            stmt_3.setObject(2, ketjuId);
+            stmt_3.setObject(3, viesti);
+            stmt_3.setObject(4, lahettajaIp);
+            stmt_3.execute();
+            stmt_3.close();
+
+            connection.close();
+        }
+        
+    }
 }

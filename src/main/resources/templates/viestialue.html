@@ -1,9 +1,9 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"   xmlns:th="http://www.thymeleaf.org">
 
     <head>
         <title>Viestialue</title>
-        <meta charset="utf-8" />
+        <meta charset="utf-8"/>
         <style>
             table {
                 border-collapse: collapse;
@@ -36,8 +36,13 @@
                
         </table>
          <form method="POST">
-            <input type="text" name="nimi"/>
-            <input type="submit" value="aloita uusi keskustlu"/>
+            <p>Aihe</p>
+            <input type="text" name="otsikko"/>
+            <p>Viesti</p>
+            <textarea name="viesti" cols="60" rows="4"></textarea>
+            <p> Lahettaja </p>
+            <input type="text" name="lahettaja"/>
+            <input type="submit" value="aloita uusi keskustelu"/>
          </form>
         
         

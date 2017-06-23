@@ -15,7 +15,7 @@ public class Viestiketju {
     private int viestialue;
     private String otsikko;
     private String viimeisinAika;
-    private int viestienLukumaara;
+    private int maara;
     
     public Viestiketju (int id, int viestialue, String otsikko){
         this.id = id;
@@ -38,9 +38,11 @@ public class Viestiketju {
         this.viimeisinAika = viimeisinAika;
     }
     public void setMaara(int maara){
-        this.viestienLukumaara = maara;
+        //System.out.println("maaara: " + maara);
+        this.maara = maara;
     }
     public int getMaara(){
-        return this.viestienLukumaara;
+        return this.maara;
+
     }
 }

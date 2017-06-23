@@ -130,7 +130,7 @@ public class ViestialueDao {
     public List<Viestiketju> getViimeisetketjut(Integer viestialueId)throws SQLException{
         Connection connection = database.getConnection();
         //PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS lkm FROM Viesti WHERE viestiketju IN (SELECT id FROM Viestiketju WHERE viestialue = ?)");
-        PreparedStatement stmt = connection.prepareStatement("SELECT K.id, K.otsikko, MAX(viestinaika) AS viestinaika FROM Viesti V JOIN Viestiketju K ON K.id = V.viestiketju WHERE K.viestialue =? GROUP BY K.otsikko, K.id");
+        PreparedStatement stmt = connection.prepareStatement("SELECT K.id, K.otsikko, MAX(viestinaika) AS viestinaika, COUNT(*) AS maara FROM Viesti V JOIN Viestiketju K ON K.id = V.viestiketju WHERE K.viestialue =? GROUP BY K.otsikko, K.id");
         stmt.setObject(1, viestialueId);
  
         
@@ -139,15 +139,18 @@ public class ViestialueDao {
         List<Viestiketju> viestiketjut = new ArrayList<>();
         
         while (rs.next()) {
-            System.out.println(rs.getInt("id"));
-            System.out.println(rs.getString("otsikko"));
-            System.out.println(rs.getString("viestinaika"));
+            //System.out.println(rs.getInt("id"));
+            //System.out.println(rs.getString("otsikko"));
+            //System.out.println(rs.getString("viestinaika"));
             
             Integer id = rs.getInt("id");
             String otsikko = rs.getString("otsikko");
             String viestinaika = rs.getString("viestinaika");
+            Integer maara = rs.getInt("maara");
 
             Viestiketju v = new Viestiketju(id,viestialueId,otsikko);
+            //System.out.println("maara on: " + maara);
+            v.setMaara(maara);
             v.setViimeisinaika(viestinaika);
             viestiketjut.add(v);
 

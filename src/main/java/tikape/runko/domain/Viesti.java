@@ -12,32 +12,35 @@ package tikape.runko.domain;
 public class Viesti {
     
     private int id;
-    private int lahettaja;
+    private String lahettaja;
     private int viestiketju;
-    private String otsikko;
     private String viesti;
+    private String lahettajaIp;
     private String viestinaika;
     
-    public Viesti(int id, int lahettaja, int viestiketju, String otsikko,String viesti,String viestinaika){
+    public Viesti(int id, String lahettaja, int viestiketju,String viesti,String viestinaika, String lahettajaIp){
         this.id = id;
         this.lahettaja = lahettaja;
         this.viestiketju = viestiketju;
-        this.otsikko = otsikko;
         this.viesti = viesti;
+        this.viestinaika = viestinaika;
+        this.lahettajaIp = lahettajaIp;
     }
-    public int getLahettaja(){
+    public String getLahettaja(){
         return this.lahettaja;
     }
     public int getViestiketju(){
         return this.viestiketju;
     }
-    public String getOtsikko(){
-        return this.otsikko;
-    }
+
     public String getViesti(){
         return this.viesti;
     }
-    public String viestinAika(){
+    public String getViestinaika(){
         return this.viestinaika;
+    }
+
+    public String getLahettajaip(){
+        return this.lahettajaIp;
     }
 }
