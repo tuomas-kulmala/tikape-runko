@@ -30,7 +30,7 @@ public class ViestialueDao {
     
     public Viestialue findOne(Integer key) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viestialue WHERE id = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viestialue A WHERE A.id = ?");
         stmt.setObject(1, key);
 
         ResultSet rs = stmt.executeQuery();
@@ -56,7 +56,7 @@ public class ViestialueDao {
     public List<Viestialue> findAll() throws SQLException {
 
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viestialue ORDER BY nimi ASC");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viestialue A ORDER BY A.nimi ASC");
 
         ResultSet rs = stmt.executeQuery();
         List<Viestialue> viestialueet = new ArrayList<>();
@@ -79,7 +79,7 @@ public class ViestialueDao {
     }
     public String findViimeinen(Integer key) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT MAX(viestinaika) AS viestinaika FROM Viesti WHERE viestiketju IN (SELECT id FROM Viestiketju WHERE viestialue = ?)");
+        PreparedStatement stmt = connection.prepareStatement("SELECT MAX(V.viestinaika) AS viestinaika FROM Viesti V WHERE V.viestiketju IN (SELECT K.id FROM Viestiketju K WHERE K.viestialue = ?)");
         stmt.setObject(1, key);
 
         ResultSet rs = stmt.executeQuery();
@@ -99,7 +99,7 @@ public class ViestialueDao {
     } 
     public int laskeViestit(Integer key) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS lkm FROM Viesti WHERE viestiketju IN (SELECT id FROM Viestiketju WHERE viestialue = ?)");
+        PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS lkm FROM Viesti V WHERE V.viestiketju IN (SELECT K.id FROM Viestiketju K WHERE K.viestialue = ?)");
         stmt.setObject(1, key);
 
         ResultSet rs = stmt.executeQuery();
@@ -118,7 +118,7 @@ public class ViestialueDao {
     }
         public void lisaa(String nimi) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("INSERT INTO Viestialue (nimi) VALUES(?);");
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO Viestialue A (nimi) VALUES(?);");
         stmt.setObject(1, nimi);
         
         stmt.execute();
@@ -129,7 +129,7 @@ public class ViestialueDao {
     public List<Viestiketju> getViimeisetketjut(Integer viestialueId)throws SQLException{
         Connection connection = database.getConnection();
         //PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS lkm FROM Viesti WHERE viestiketju IN (SELECT id FROM Viestiketju WHERE viestialue = ?)");
-        PreparedStatement stmt = connection.prepareStatement("SELECT K.id, K.otsikko, MAX(viestinaika) AS viestinaika, COUNT(*) AS maara FROM Viesti V JOIN Viestiketju K ON K.id = V.viestiketju WHERE K.viestialue =? GROUP BY K.otsikko, K.id ORDER BY K.otsikko ASC");
+        PreparedStatement stmt = connection.prepareStatement("SELECT K.id, K.otsikko, MAX(V.viestinaika) AS viestinaika, COUNT(*) AS maara FROM Viesti V JOIN Viestiketju K ON K.id = V.viestiketju WHERE K.viestialue =? GROUP BY K.otsikko, K.id ORDER BY K.otsikko ASC");
         stmt.setObject(1, viestialueId);
  
         

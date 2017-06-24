@@ -27,7 +27,7 @@ public class ViestiketjuDao {
     
     public Viestiketju findOne(Integer key) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viestiketju WHERE id = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viestiketju V WHERE V.id = ?");
         stmt.setObject(1, key);
 
         ResultSet rs = stmt.executeQuery();
@@ -53,7 +53,7 @@ public class ViestiketjuDao {
     public List<Viestiketju> findAll() throws SQLException {
 
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viestiketju WHERE id = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viestiketju V WHERE V.id = ?");
         
         ResultSet rs = stmt.executeQuery();
         List<Viestiketju> viestiketjut = new ArrayList<>();
@@ -74,7 +74,7 @@ public class ViestiketjuDao {
     public List<Viestiketju> getViimeisetketjut(Integer viestialueId)throws SQLException{
         Connection connection = database.getConnection();
         //PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS lkm FROM Viesti WHERE viestiketju IN (SELECT id FROM Viestiketju WHERE viestialue = ?)");
-        PreparedStatement stmt = connection.prepareStatement("SELECT K.id, K.otsikko,MAX(viestinaika) AS viestinaika FROM Viesti V JOIN Viestiketju K ON K.id = V.viestiketju WHERE K.viestialue =? GROUP BY K.otsikko, K.id ORDER BY viestinaika DESC LIMIT 10");
+        PreparedStatement stmt = connection.prepareStatement("SELECT K.id, K.otsikko,MAX(viestinaika) AS viestinaika FROM Viesti V JOIN Viestiketju K ON K.id = V.viestiketju WHERE K.viestialue =? GROUP BY K.otsikko, K.id ORDER BY V.viestinaika DESC LIMIT 10");
         stmt.setObject(1, viestialueId);
  
         
@@ -104,7 +104,7 @@ public class ViestiketjuDao {
     } 
     public int laskeViestit(Integer key) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS lkm FROM Viesti WHERE  viestiketju = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS lkm FROM Viesti V WHERE  V.viestiketju = ?");
         stmt.setObject(1, key);
 
         ResultSet rs = stmt.executeQuery();
@@ -130,21 +130,21 @@ public class ViestiketjuDao {
             Connection connection = database.getConnection();
 
             // Uusi viestiketju kantaan
-            PreparedStatement stmt_1 = connection.prepareStatement("INSERT INTO VIESTIKETJU (viestialue, otsikko) VALUES(?, ?);");
+            PreparedStatement stmt_1 = connection.prepareStatement("INSERT INTO Viestiketju (viestialue, otsikko) VALUES(?, ?);");
             stmt_1.setObject(1, id);
             stmt_1.setObject(2, otsikko);
             stmt_1.execute();
             stmt_1.close();
 
             // Haetaan uuden ketjun id kannasta
-            PreparedStatement stmt_2 = connection.prepareStatement("SELECT MAX(id) AS ketjuid FROM Viestiketju;");
+            PreparedStatement stmt_2 = connection.prepareStatement("SELECT MAX(K.id) AS ketjuid FROM Viestiketju K;");
             ResultSet rs = stmt_2.executeQuery();       
             int ketjuId = Integer.parseInt(rs.getString("ketjuid"));
             rs.close();
             stmt_2.close();
 
             // Kirjoitetaan uusi viesti tauluun
-            PreparedStatement stmt_3 = connection.prepareStatement("INSERT INTO VIESTI (lahettaja, viestiketju, viesti,lahettaja_ip) VALUES(?, ?, ?, ?);");
+            PreparedStatement stmt_3 = connection.prepareStatement("INSERT INTO Viesti (lahettaja, viestiketju, viesti,lahettaja_ip) VALUES(?, ?, ?, ?);");
             stmt_3.setObject(1, lahettaja);
             stmt_3.setObject(2, ketjuId);
             stmt_3.setObject(3, viesti);

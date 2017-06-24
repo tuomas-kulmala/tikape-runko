@@ -27,7 +27,7 @@ public class ViestiDao {
 
     public Viesti findOne(Integer key) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viesti WHERE id = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viesti V WHERE V.id = ?");
         stmt.setObject(1, key);
 
         ResultSet rs = stmt.executeQuery();
@@ -55,7 +55,7 @@ public class ViestiDao {
     public List<Viesti> findAll(int ketjuId) throws SQLException {
 
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viesti WHERE viestiketju = ? ORDER BY viestinaika DESC");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viesti V WHERE V.viestiketju = ? ORDER BY V.viestinaika DESC");
         stmt.setObject(1, ketjuId);
         ResultSet rs = stmt.executeQuery();
         List<Viesti> viestit = new ArrayList<>();
@@ -88,7 +88,7 @@ public class ViestiDao {
 
 
             // Kirjoitetaan uusi viesti tauluun
-            PreparedStatement stmt_3 = connection.prepareStatement("INSERT INTO VIESTI (lahettaja, viestiketju, viesti,lahettaja_ip) VALUES(?, ?, ?, ?);");
+            PreparedStatement stmt_3 = connection.prepareStatement("INSERT INTO Viesti (lahettaja, viestiketju, viesti,lahettaja_ip) VALUES(?, ?, ?, ?);");
             stmt_3.setObject(1, lahettaja);
             stmt_3.setObject(2, id);
             stmt_3.setObject(3, viesti);
