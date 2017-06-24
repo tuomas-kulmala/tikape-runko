@@ -18,7 +18,7 @@ public class Main {
         }
         
         Database database = new Database("jdbc:sqlite:opiskelijat.db");
-        database.init();
+        //database.init();
 
 
         ViestialueDao viestialueDao = new ViestialueDao(database);
