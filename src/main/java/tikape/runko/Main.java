@@ -16,10 +16,17 @@ public class Main {
         if (System.getenv("PORT") != null) {
             port(Integer.valueOf(System.getenv("PORT")));
         }
-        
-        Database database = new Database("jdbc:sqlite:opiskelijat.db");
-        //database.init();
+        // käytetään oletuksena paikallista sqlite-tietokantaa
+        String jdbcOsoite = "jdbc:sqlite:opiskelijat.db";
+        // jos heroku antaa käyttöömme tietokantaosoitteen, otetaan se käyttöön
+        if (System.getenv("DATABASE_URL") != null) {
+            jdbcOsoite = System.getenv("DATABASE_URL");
+        } 
 
+        Database database = new Database(jdbcOsoite);
+        
+
+        //database.init();
 
         ViestialueDao viestialueDao = new ViestialueDao(database);
         ViestiketjuDao viestiketjuDao = new ViestiketjuDao(database);

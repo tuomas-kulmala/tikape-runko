@@ -63,10 +63,43 @@ public class Database {
         ArrayList<String> lista = new ArrayList<>();
 
         // tietokantataulujen luomiseen tarvittavat komennot suoritusjärjestyksessä
-        lista.add("DROP TABLE Tuote;");
-        // heroku käyttää SERIAL-avainsanaa uuden tunnuksen automaattiseen luomiseen
-        lista.add("CREATE TABLE Tuote (id SERIAL PRIMARY KEY, nimi varchar(255));");
-        lista.add("INSERT INTO Tuote (nimi) VALUES ('postgresql-tuote');");
+        lista.add("DROP TABLE Viestialue");
+        lista.add("DROP TABLE Viestiketju");
+        lista.add("DROP TABLE Viesti");
+        
+        lista.add("CREATE TABLE Viestialue(id SERIAL PRIMARY KEY,nimi VARCHAR(255));");
+        lista.add("CREATE TABLE Viestiketju(id SERIAL PRIMARY KEY,viestialue INT NOT NULL,otsikko VARCHAR(255),FOREIGN KEY(viestialue) REFERENCES viestialue(id));");
+        lista.add("CREATE TABLE Viesti(id SERIAL PRIMARY KEY,lahettaja VARCHAR,lahettaja_ip VARCHAR,viestiketju INT NOT NULL,viesti VARCHAR(255),viestinaika TIMESTAMP WITH TIME ZONE,FOREIGN KEY(viestiketju) REFERENCES viestiketju(id));");
+     
+        lista.add("INSERT INTO VIESTIALUE (nimi) VALUES('Ohjelmointi');");
+        lista.add("INSERT INTO VIESTIKETJU (viestialue,otsikko) VALUES((SELECT MAX(id)FROM VIESTIALUE),'Miksi c++ on niin vaikeaa?')");
+        lista.add("INSERT INTO VIESTI (lahettaja, viestiketju, viesti) VALUES('aloittelija',(SELECT MAX(id)FROM VIESTIKETJU),'En ymmärrä, miksi tämä on niin vaikeaa');");
+        
+        lista.add("INSERT INTO VIESTI (lahettaja, viestiketju, viesti) VALUES('chiefmaster',(SELECT MAX(id)FROM VIESTIKETJU),'Mikä siinä on niin vaikea käsittää');");
+        lista.add("INSERT INTO VIESTI (lahettaja, viestiketju, viesti) VALUES('Anonymous',(SELECT MAX(id)FROM VIESTIKETJU),'Ehkä olet tyhmä');");
+        lista.add("INSERT INTO VIESTI (lahettaja, viestiketju, viesti) VALUES('teme',(SELECT MAX(id)FROM VIESTIKETJU),'Trolli trololoo');");
+        
+        lista.add("INSERT INTO VIESTIKETJU (viestialue,otsikko) VALUES((SELECT MAX(id)FROM VIESTIALUE),'Python ohjeet hakusessa')");
+        lista.add("INSERT INTO VIESTI (lahettaja, viestiketju, viesti) VALUES('Matti',(SELECT MAX(id)FROM VIESTIKETJU),'Mistä kannattaa etsiä Python ohjeita?');");
+        lista.add("INSERT INTO VIESTI (lahettaja, viestiketju, viesti) VALUES('Pythonist',(SELECT MAX(id)FROM VIESTIKETJU),'Katso online dokumentaatiosta tai Stack Overflowsta');");
+        lista.add("INSERT INTO VIESTI (lahettaja, viestiketju, viesti) VALUES('Anonymous',(SELECT MAX(id)FROM VIESTIKETJU),'No ei niitä ainakaan täältä kannata kysellä');");
+        lista.add("INSERT INTO VIESTI (lahettaja, viestiketju, viesti) VALUES('Matti',(SELECT MAX(id)FROM VIESTIKETJU),'Joo huomasin :D');");
+        
+        lista.add("INSERT INTO VIESTIALUE (nimi) VALUES('Lemmikit');");
+        lista.add("INSERT INTO VIESTIKETJU (viestialue,otsikko) VALUES((SELECT MAX(id)FROM VIESTIALUE),'Mitä lemmikkejä sinulla on?')");
+        lista.add("INSERT INTO VIESTI (lahettaja, viestiketju, viesti) VALUES('Eemeli',(SELECT MAX(id)FROM VIESTIKETJU),'Mitä lemmikkejä teillä on kotona?');");
+        lista.add("INSERT INTO VIESTI (lahettaja, viestiketju, viesti) VALUES('dogMan',(SELECT MAX(id)FROM VIESTIKETJU),'Minulla on koira');");
+        lista.add("INSERT INTO VIESTI (lahettaja, viestiketju, viesti) VALUES('Milli',(SELECT MAX(id)FROM VIESTIKETJU),'Otin juuri kissanpennun');");
+        lista.add("INSERT INTO VIESTI (lahettaja, viestiketju, viesti) VALUES('Anonymous',(SELECT MAX(id)FROM VIESTIKETJU),'vihaankoiria!?!');");
+        
+        lista.add("INSERT INTO VIESTIALUE (nimi) VALUES('Lentokoneet');");
+        lista.add("INSERT INTO VIESTIKETJU (viestialue,otsikko) VALUES((SELECT MAX(id)FROM VIESTIALUE),'Tupolev vai Airbus')");
+        lista.add("INSERT INTO VIESTI (lahettaja, viestiketju, viesti) VALUES('kyselijä',(SELECT MAX(id)FROM VIESTIKETJU),'Kumpia Finnairin kannattaisi hankkia?');");
+        lista.add("INSERT INTO VIESTI (lahettaja, viestiketju, viesti) VALUES('tietäjä',(SELECT MAX(id)FROM VIESTIKETJU),'Ei kumpiakaan. Ei pysy ilmassa');");
+       
+        lista.add("INSERT INTO VIESTIKETJU (viestialue,otsikko) VALUES((SELECT MAX(id)FROM VIESTIALUE),'Oliko saksalaisilla helikopteri toisessa maailmansodassa')");
+        lista.add("INSERT INTO VIESTI (lahettaja, viestiketju, viesti) VALUES('hekomies',(SELECT MAX(id)FROM VIESTIKETJU),'Ei mutta Venäläisillä oli MI-24');");
+        lista.add("INSERT INTO VIESTI (lahettaja, viestiketju, viesti) VALUES('Araska',(SELECT MAX(id)FROM VIESTIKETJU),'Tämä kysymys ei kuulu tälle alueelle');");
 
         return lista;
     }
