@@ -139,7 +139,10 @@ public class ViestiketjuDao {
             // Haetaan uuden ketjun id kannasta
             PreparedStatement stmt_2 = connection.prepareStatement("SELECT MAX(K.id) AS ketjuid FROM Viestiketju K;");
             ResultSet rs = stmt_2.executeQuery();       
-            int ketjuId = Integer.parseInt(rs.getString("ketjuid"));
+            int ketjuId =0;
+            if (rs.next()) {
+                ketjuId = Integer.parseInt(rs.getString("ketjuid"));
+            }
             rs.close();
             stmt_2.close();
 
