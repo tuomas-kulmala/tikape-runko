@@ -8,6 +8,7 @@ import tikape.runko.database.Database;
 import tikape.runko.database.ViestialueDao;
 import tikape.runko.database.ViestiketjuDao;
 import tikape.runko.database.ViestiDao;
+import tikape.runko.domain.Alkudata;
 
 public class Main {
 
@@ -26,7 +27,9 @@ public class Main {
         Database database = new Database(jdbcOsoite);
         
 
-        //database.init();
+        //Luodaan alkudataa
+        Alkudata alkudata = new Alkudata(database);
+        alkudata.luo();
 
         ViestialueDao viestialueDao = new ViestialueDao(database);
         ViestiketjuDao viestiketjuDao = new ViestiketjuDao(database);
@@ -73,20 +76,20 @@ public class Main {
         });
         
         // Viestin lisäys
-        post("/viestialue/viestiketju/:id", (req, res) -> {
+        post("/viestialue/viestiketju/:id/:page", (req, res) -> {
             int id = Integer.parseInt(req.params(":id"));
             System.out.println(id);
             viestiDao.lisaa(Integer.parseInt(req.params(":id")),req.queryParams("viesti"),req.queryParams("lahettaja"),req.ip()); 
-            res.redirect("/viestialue/viestiketju/" + req.params(":id"));
+            res.redirect("/viestialue/viestiketju/" + req.params(":id") + "/" + req.params("page"));
             return "ok";
         });
         
         
         // Yksittäinen viestiketu ja viestit
-        get("/viestialue/viestiketju/:id", (req, res) -> {
+        get("/viestialue/viestiketju/:id/:page", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("viestiketju", viestiketjuDao.findOne(Integer.parseInt(req.params("id"))));
-            map.put("viestit", viestiDao.findAll(Integer.parseInt(req.params("id"))));
+            map.put("viestit", viestiDao.findAllByBlock(Integer.parseInt(req.params("id")),Integer.parseInt(req.params("page"))));
             
             return new ModelAndView(map, "viestiketju");   
         }, new ThymeleafTemplateEngine());

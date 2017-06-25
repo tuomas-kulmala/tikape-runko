@@ -118,7 +118,7 @@ public class ViestialueDao {
     }
         public void lisaa(String nimi) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("INSERT INTO Viestialue A (nimi) VALUES(?);");
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO Viestialue (nimi) VALUES(?);");
         stmt.setObject(1, nimi);
         
         stmt.execute();

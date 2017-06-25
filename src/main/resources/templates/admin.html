@@ -36,21 +36,11 @@
                     <td th:text="${viestiketju.otsikko}">viestiketjun otsikko"</td>
                     <td th:text="${viestiketju.maara}">viestejä"</td>
                     <td th:text="${viestiketju.viimeisinaika}">viimeisin viesti"</td>
-                    <td> <a th:href="${'/viestialue/'+'viestiketju/'+ viestiketju.id + '/1'}">Lue</a></td>
+                    <td> <a th:href="${'/viestialue/'+'viestiketju/'+ viestiketju.id}">Lue</a></td>
                 </tr>
             </th:block>
                
         </table>
-         <form method="POST">
-            <p>Aihe</p>
-            <input type="text" name="otsikko"/>
-            <p>Viesti</p>
-            <textarea name="viesti" cols="60" rows="4"></textarea>
-            <p> Lahettaja </p>
-            <input type="text" name="lahettaja"/>
-            <input type="submit" value="aloita uusi keskustelu"/>
-         </form>
-        
-        
+                
     </body>
 </html>

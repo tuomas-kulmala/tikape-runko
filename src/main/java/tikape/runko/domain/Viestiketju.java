@@ -45,4 +45,7 @@ public class Viestiketju {
         return this.maara;
 
     }
+    public int getSivut(){
+        return this.maara/5 +1;
+    }
 }

@@ -78,7 +78,41 @@ public class ViestiDao {
 
         return viestit;
     }
-        public void lisaa(int id, String viesti,String lahettaja,String lahettajaIp) throws SQLException {
+        public List<Viesti> findAllByBlock(int ketjuId, int blockId) throws SQLException {
+        // Montako viestiä sivulla
+        int blockLenght =5;
+        // Viimeisen järjestysnumero
+        int blockLoppu = blockId * blockLenght;
+        // Ensimmäisen järjestynumero
+        int blockAlku = (blockLoppu-blockLenght);
+        
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viesti V WHERE V.viestiketju = ? ORDER BY V.viestinaika DESC LIMIT ? OFFSET ?;");
+        stmt.setObject(1, ketjuId);
+        stmt.setObject(2, blockLenght);
+        stmt.setObject(3, blockAlku);
+        ResultSet rs = stmt.executeQuery();
+        List<Viesti> viestit = new ArrayList<>();
+        while (rs.next()) {
+            Integer id = rs.getInt("id");
+            String lahettaja = rs.getString("lahettaja");
+            Integer viestiketju = rs.getInt("viestiketju");
+            String viesti = rs.getString("viesti");
+            String viestinaika = rs.getString("viestinaika");
+            String lahettajaIp = rs.getString("lahettaja_ip");
+            
+            //System.out.println(viestinaika);
+
+            viestit.add(new Viesti(id, lahettaja, viestiketju, viesti,viestinaika,lahettajaIp));
+        }
+
+        rs.close();
+        stmt.close();
+        connection.close();
+
+        return viestit;
+    }
+    public void lisaa(int id, String viesti,String lahettaja,String lahettajaIp) throws SQLException {
         // Tarkistetaan naivisti syötteiden sisältö
         if (!viesti.isEmpty()){
             if(lahettaja.isEmpty()){
