@@ -63,9 +63,9 @@ public class Database {
         ArrayList<String> lista = new ArrayList<>();
 
         // tietokantataulujen luomiseen tarvittavat komennot suoritusjärjestyksessä
-        lista.add("DROP TABLE Viestialue");
-        lista.add("DROP TABLE Viestiketju");
-        lista.add("DROP TABLE Viesti");
+        lista.add("DROP TABLE IF EXISTS Viestialue");
+        lista.add("DROP TABLE IF EXISTS Viestiketju");
+        lista.add("DROP TABLE IF EXISTS Viesti");
         
         lista.add("CREATE TABLE Viestialue(id SERIAL PRIMARY KEY,nimi VARCHAR(255));");
         lista.add("CREATE TABLE Viestiketju(id SERIAL PRIMARY KEY,viestialue INT NOT NULL,otsikko VARCHAR(255),FOREIGN KEY(viestialue) REFERENCES Viestialue(id));");
