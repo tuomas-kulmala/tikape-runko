@@ -85,7 +85,11 @@ public class ViestiDao {
                 lahettaja = "Anonyymi";
             }
             Connection connection = database.getConnection();
-
+            
+            //Viestin pituuden tarkastus
+            if(viesti.length()>400){
+                viesti = viesti.substring(0, 399);
+            }
 
             // Kirjoitetaan uusi viesti tauluun
             PreparedStatement stmt_3 = connection.prepareStatement("INSERT INTO Viesti (lahettaja, viestiketju, viesti,lahettaja_ip) VALUES(?, ?, ?, ?);");

@@ -69,7 +69,7 @@ public class Database {
         
         lista.add("CREATE TABLE Viestialue(id SERIAL PRIMARY KEY,nimi VARCHAR(255));");
         lista.add("CREATE TABLE Viestiketju(id SERIAL PRIMARY KEY,viestialue INT NOT NULL,otsikko VARCHAR(255),FOREIGN KEY(viestialue) REFERENCES Viestialue(id));");
-        lista.add("CREATE TABLE Viesti(id SERIAL PRIMARY KEY,lahettaja VARCHAR,lahettaja_ip VARCHAR,viestiketju INT NOT NULL,viesti VARCHAR(255),viestinaika DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY(viestiketju) REFERENCES Viestiketju(id));");
+        lista.add("CREATE TABLE Viesti(id SERIAL PRIMARY KEY,lahettaja VARCHAR,lahettaja_ip VARCHAR,viestiketju INT NOT NULL,viesti VARCHAR(600),viestinaika DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY(viestiketju) REFERENCES Viestiketju(id));");
      
         lista.add("INSERT INTO Viestialue (nimi) VALUES('Ohjelmointi');");
         lista.add("INSERT INTO Viestiketju (viestialue,otsikko) VALUES((SELECT MAX(id)FROM Viestialue),'Miksi c++ on niin vaikeaa?')");
@@ -114,7 +114,7 @@ public class Database {
         
         lista.add("CREATE TABLE Viestialue(id INTEGER PRIMARY KEY AUTOINCREMENT,nimi VARCHAR(255));");
         lista.add("CREATE TABLE Viestiketju(id INTEGER PRIMARY KEY AUTOINCREMENT,viestialue INT NOT NULL,otsikko VARCHAR(255),FOREIGN KEY(viestialue) REFERENCES Viestialue(id));");
-        lista.add("CREATE TABLE Viesti(id INTEGER PRIMARY KEY AUTOINCREMENT,lahettaja VARCHAR,lahettaja_ip VARCHAR,viestiketju INT NOT NULL,viesti VARCHAR(255),viestinaika DATETIME DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY(viestiketju) REFERENCES Viestiketju(id));");
+        lista.add("CREATE TABLE Viesti(id INTEGER PRIMARY KEY AUTOINCREMENT,lahettaja VARCHAR,lahettaja_ip VARCHAR,viestiketju INT NOT NULL,viesti VARCHAR(600),viestinaika DATETIME DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY(viestiketju) REFERENCES Viestiketju(id));");
      
         lista.add("INSERT INTO VIESTIALUE (nimi) VALUES('Ohjelmointi');");
         lista.add("INSERT INTO VIESTIKETJU (viestialue,otsikko) VALUES((SELECT MAX(id)FROM VIESTIALUE),'Miksi c++ on niin vaikeaa?')");

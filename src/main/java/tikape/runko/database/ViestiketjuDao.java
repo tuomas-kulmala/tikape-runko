@@ -127,6 +127,11 @@ public class ViestiketjuDao {
             if(lahettaja.isEmpty()){
                 lahettaja = "Anonyymi";
             }
+            
+            // Otsikon pituuden tarkastus
+            if(otsikko.length()>255){
+                otsikko = otsikko.substring(0, 254);
+            }
             Connection connection = database.getConnection();
 
             // Uusi viestiketju kantaan
