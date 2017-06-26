@@ -70,7 +70,7 @@ public class Database {
         // Taulujen luonti
         lista.add("CREATE TABLE Viestialue(id SERIAL PRIMARY KEY,nimi VARCHAR(255));");
         lista.add("CREATE TABLE Viestiketju(id SERIAL PRIMARY KEY,viestialue INT NOT NULL,otsikko VARCHAR(255),FOREIGN KEY(viestialue) REFERENCES Viestialue(id));");
-        lista.add("CREATE TABLE Viesti(id SERIAL PRIMARY KEY,lahettaja VARCHAR,lahettaja_ip VARCHAR,viestiketju INT NOT NULL,viesti VARCHAR(600),viestinaika NOW(),FOREIGN KEY(viestiketju) REFERENCES Viestiketju(id));");
+        lista.add("CREATE TABLE Viesti(id SERIAL PRIMARY KEY,lahettaja VARCHAR,lahettaja_ip VARCHAR,viestiketju INT NOT NULL,viesti VARCHAR(600),viestinaika DEFAULT current_timestamp, FOREIGN KEY(viestiketju) REFERENCES Viestiketju(id));");
      
         //Viestiketjujen lisäys iirretty Aloitusdata moduuliin
         lista.add("INSERT INTO Viestialue (nimi) VALUES('Ohjelmointi');");
