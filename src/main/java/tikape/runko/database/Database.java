@@ -67,6 +67,7 @@ public class Database {
         lista.add("DROP TABLE IF EXISTS Viestiketju");
         lista.add("DROP TABLE IF EXISTS Viesti");
         
+        // Taulujen luonti
         lista.add("CREATE TABLE Viestialue(id SERIAL PRIMARY KEY,nimi VARCHAR(255));");
         lista.add("CREATE TABLE Viestiketju(id SERIAL PRIMARY KEY,viestialue INT NOT NULL,otsikko VARCHAR(255),FOREIGN KEY(viestialue) REFERENCES Viestialue(id));");
         lista.add("CREATE TABLE Viesti(id SERIAL PRIMARY KEY,lahettaja VARCHAR,lahettaja_ip VARCHAR,viestiketju INT NOT NULL,viesti VARCHAR(600),viestinaika NOW(),FOREIGN KEY(viestiketju) REFERENCES Viestiketju(id));");
