@@ -119,7 +119,7 @@ public class Database {
         lista.add("CREATE TABLE Viestiketju(id INTEGER PRIMARY KEY AUTOINCREMENT,viestialue INT NOT NULL,otsikko VARCHAR(255),FOREIGN KEY(viestialue) REFERENCES Viestialue(id));");
         lista.add("CREATE TABLE Viesti(id INTEGER PRIMARY KEY AUTOINCREMENT,lahettaja VARCHAR,lahettaja_ip VARCHAR,viestiketju INT NOT NULL,viesti VARCHAR(600),viestinaika DATETIME DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY(viestiketju) REFERENCES Viestiketju(id));");
      
-        /* Viestiketjujen lisäys iirretty Aloitusdata moduuliin
+        //Viestiketjujen lisäys iirretty Aloitusdata moduuliin
         lista.add("INSERT INTO VIESTIALUE (nimi) VALUES('Ohjelmointi');");
         lista.add("INSERT INTO VIESTIKETJU (viestialue,otsikko) VALUES((SELECT MAX(id)FROM VIESTIALUE),'Miksi c++ on niin vaikeaa?')");
         lista.add("INSERT INTO VIESTI (lahettaja, viestiketju, viesti) VALUES('aloittelija',(SELECT MAX(id)FROM VIESTIKETJU),'En ymmärrä, miksi tämä on niin vaikeaa');");
@@ -149,7 +149,7 @@ public class Database {
         lista.add("INSERT INTO VIESTIKETJU (viestialue,otsikko) VALUES((SELECT MAX(id)FROM VIESTIALUE),'Oliko saksalaisilla helikopteri toisessa maailmansodassa')");
         lista.add("INSERT INTO VIESTI (lahettaja, viestiketju, viesti) VALUES('hekomies',(SELECT MAX(id)FROM VIESTIKETJU),'Ei mutta Venäläisillä oli MI-24');");
         lista.add("INSERT INTO VIESTI (lahettaja, viestiketju, viesti) VALUES('Araska',(SELECT MAX(id)FROM VIESTIKETJU),'Tämä kysymys ei kuulu tälle alueelle');");
-        */
+        
         
         return lista;
     }
