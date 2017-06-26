@@ -28,8 +28,8 @@ public class Main {
         
 
         //Luodaan alkudataa
-        //Alkudata alkudata = new Alkudata(database);
-        //alkudata.luo();
+        Alkudata alkudata = new Alkudata(database);
+        alkudata.luo();
 
         ViestialueDao viestialueDao = new ViestialueDao(database);
         ViestiketjuDao viestiketjuDao = new ViestiketjuDao(database);
